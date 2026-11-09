@@ -3,6 +3,7 @@ import game_framework
 import game_world
 import title_mode
 import pause_mode
+import inventory_mode
 from boy import Boy
 from grass import Grass
 
@@ -16,6 +17,8 @@ def handle_events():
             game_framework.change_mode(title_mode)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_mode(pause_mode)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_i:
+            game_framework.push_mode(inventory_mode)
         else:
             boy.handle_event(event)
 
@@ -45,7 +48,7 @@ def finish():
 
 
 def pause():
-    pass
+    boy.release_keys()  # 다른 모드 중에는 달리지 않고 제자리 애니메이션만 유지
 
 
 def resume():

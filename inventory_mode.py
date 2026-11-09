@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import game_world
 import play_mode
+import pause_mode
 
 image = None
 
@@ -43,6 +44,8 @@ def handle_events():
             game_framework.pop_mode()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_i:
             game_framework.pop_mode()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
+            game_framework.push_mode(pause_mode)  # 일시정지 해제 시 인벤토리로 복귀
         # 그 외 키(방향키, SPACE)는 무시 → 플레이어 입력 차단
 
 

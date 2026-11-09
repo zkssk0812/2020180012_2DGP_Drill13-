@@ -4,11 +4,16 @@ import game_world
 
 
 class Ball:
-    image = None
+    IMAGE_FILES = {
+        'small': 'ball21x21.png',
+        'big': 'ball41x41.png',
+    }
+    images = {}  # 크기별 이미지 캐시 (한 번만 로드)
 
-    def __init__(self, x, y, velocity):
-        if Ball.image is None:
-            Ball.image = load_image('ball21x21.png')
+    def __init__(self, x, y, velocity, size='small'):
+        if size not in Ball.images:
+            Ball.images[size] = load_image(Ball.IMAGE_FILES[size])
+        self.image = Ball.images[size]
         self.x, self.y = x, y
         self.velocity = velocity
 

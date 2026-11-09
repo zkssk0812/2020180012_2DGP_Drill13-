@@ -18,6 +18,7 @@ class Boy:
         self.dir = 0
         self.face_dir = 1
         self.pressed_keys = set()
+        self.ball_item = 1  # 0: 없음, 1: 작은 공, 2: 큰 공
 
         self.machine = Machine(
             model=self,
@@ -46,8 +47,14 @@ class Boy:
     def on_enter_RUN(self):
         self.frame = 0
 
+    def select_item(self, item):
+        self.ball_item = item
+
     def fire_ball(self):
-        ball = Ball(self.x, self.y, self.face_dir * 10)
+        if self.ball_item == 0:
+            return  # 선택된 공이 없으면 발사하지 않음
+        size = 'small' if self.ball_item == 1 else 'big'
+        ball = Ball(self.x, self.y, self.face_dir * 10, size)
         game_world.add_oject(ball)
 
     def handle_event(self, event):
@@ -72,6 +79,11 @@ class Boy:
         else:
             self.pressed_keys.discard(event.key)
 
+        self.update_direction()
+
+    def release_keys(self):
+        # 입력이 막히는 모드로 넘어갈 때 달리기를 멈추고 제자리 애니메이션만 유지
+        self.pressed_keys.clear()
         self.update_direction()
 
     def sync_keys(self):
